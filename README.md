@@ -1,28 +1,47 @@
+CREATE TABLE movies (
+	movie_id INTEGER PRIMARY KEY,
+	movie_name TEXT NOT NULL,
+	actor_name TEXT NOT NULL,
+	actress_name TEXT NOT NULL,
+	release_year TEXT NOT NULL,
+	director_name TEXT NOT NULL
 
-import sqlite3
+);
 
-try:
-    sqliteConnection = sqlite3.connect('sql.db')
-    cursor = sqliteConnection.cursor()
- 
- 
-    print("Successfully Connected to SQLite")
-    cur = sqliteConnection.cursor()
+CREATE TABLE groups (
+   group_id INTEGER PRIMARY KEY,
+   name TEXT NOT NULL
+);
 
- 
-    for row in cur.execute('SELECT * FROM MOVIE;'):
-        print(row)
-       
+CREATE TABLE movie_groups(
+   movie_id INTEGER,
+   group_id INTEGER,
+   PRIMARY KEY (movie_id, group_id),
+   FOREIGN KEY (movie_id) 
+      REFERENCES movies (movie_id) 
+         ON DELETE CASCADE 
+         ON UPDATE NO ACTION,
+   FOREIGN KEY (group_id) 
+      REFERENCES groups (group_id) 
+         ON DELETE CASCADE 
+         ON UPDATE NO ACTION
+);
 
-    
-    cursor.close()
+SELECT DISTINCT groups
+FROM table
+  JOIN table ON join_condition
+WHERE row_filter
+ORDER BY column
+LIMIT count OFFSET offset
+GROUP BY column
+HAVING group_filter;
 
-except sqlite3.Error as error:
-    print("Error while executing sqlite script", error)
-finally:
-    if sqliteConnection:
-        sqliteConnection.close()
-        print("sqlite connection is closed")
-sqlite> INSERT INTO MOVIE VALUES(789,'ROBOT',2010,16,160,1600);
-sqlite> SELECT * FROM MOVIE
-   ...> ;
+SELECT
+	movie_id,
+	movie_name,
+	actor_name,
+	actress_name
+	release_year,
+	director_name
+FROM
+	table;
